@@ -25,7 +25,7 @@ class PostController extends Controller
     {
         $posts = Post::with('user')
             ->when(!$this->isAdmin(), function ($query) {
-                return $query->approved()->orWhere('user_id', auth()->user()->id());
+                return $query->approved()->orWhere('user_id', auth()->id());
             })
             ->latest()
             ->paginate(20);
