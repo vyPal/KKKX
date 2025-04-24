@@ -1,0 +1,35 @@
+<?php
+
+use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+Route::get('/', function () {
+    return Inertia::render('welcome');
+})->name('home');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+        Route::post('posts', [PostController::class, 'store'])->name('posts.store');
+        Route::post('posts/{post}/report', [PostController::class, 'report'])->name('posts.report');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/posts', [App\Http\Controllers\Admin\PostController::class, 'index'])
+        ->name('posts.index');
+    Route::patch('/posts/{post}/approve', [App\Http\Controllers\Admin\PostController::class, 'approve'])
+        ->name('posts.approve');
+    Route::patch('/posts/{post}/hide', [App\Http\Controllers\Admin\PostController::class, 'hide'])
+        ->name('posts.hide');
+    Route::patch('/posts/{post}/unhide', [App\Http\Controllers\Admin\PostController::class, 'unhide'])
+        ->name('posts.unhide');
+    Route::get('/posts/{post}/edit', [App\Http\Controllers\Admin\PostController::class, 'edit'])
+        ->name('posts.edit');
+    Route::patch('/posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'update'])
+        ->name('posts.update');
+    Route::delete('/posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'delete'])
+        ->name('posts.delete');
+});
+
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
