@@ -23,12 +23,24 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with('user')
+        $user = auth()->user();
+
+        $posts = Post::with(['user', 'likes' => function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }])
             ->when(!$this->isAdmin(), function ($query) {
-                return $query->approved()->orWhere('user_id', auth()->id());
+                return $query->approved();
             })
             ->latest()
             ->paginate(20);
+
+        // Add a is_liked_by_user flag to each post
+        $posts->getCollection()->transform(function ($post) use ($user) {
+            $post->is_liked_by_user = $post->likes->isNotEmpty();
+            // Remove the likes relationship data to reduce payload size
+            unset($post->likes);
+            return $post;
+        });
 
         return Inertia::render('Posts/Index', [
             'posts' => $posts,
@@ -80,6 +92,6 @@ class PostController extends Controller
         // Recalculate racism score based on reports
         $this->moderationService->recalculateScore($post);
 
-        return back()->with('success', 'Content reported. Thank you for helping keep our platform safe.');
+        return back()->with('success', 'Content reported. Thank you for helping keep our platform unsafe.');
     }
 }

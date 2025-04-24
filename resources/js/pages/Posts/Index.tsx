@@ -1,8 +1,9 @@
 import AdminControls from '@/components/AdminControls';
+import LikeButton from '@/components/LikeButton';
 import Modal from '@/components/Modal';
 import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
 import { PaginatedData, Post, ReportFormData, User } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import React, { useState } from 'react';
 
 interface IndexProps {
@@ -105,7 +106,11 @@ const Index: React.FC<IndexProps> = ({ auth, posts, isAdmin }) => {
                                             {post.user.username.charAt(0)}
                                         </div>
                                         <div className="ml-3">
-                                            <div className="font-semibold dark:text-white">{post.user.username}</div>
+                                            <div className="font-semibold dark:text-white">
+                                                <Link href={route('profile.show', post.user.username)} className="font-semibold hover:underline">
+                                                    {post.user.username}
+                                                </Link>
+                                            </div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">
                                                 {new Date(post.created_at).toLocaleString()}
                                             </div>
@@ -147,7 +152,9 @@ const Index: React.FC<IndexProps> = ({ auth, posts, isAdmin }) => {
                                     <div className="mt-2 text-xs font-medium text-yellow-500 dark:text-yellow-400">This post is pending approval</div>
                                 )}
 
-                                <div className="mt-4 flex justify-end">
+                                <div className="mt-4 flex items-center space-x-4">
+                                    <LikeButton postId={post.id} initialLikeCount={post.likes_count} initialLiked={post.is_liked_by_user} />
+
                                     <button
                                         onClick={() => handleReport(post.id)}
                                         className="flex items-center text-sm text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"

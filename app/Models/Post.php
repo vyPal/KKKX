@@ -50,4 +50,29 @@ class Post extends Model
     {
         return $query->where('is_hidden', true);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function likedBy()
+    {
+        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    protected static function booted()
+    {
+        // Automatically update the likes_count when likes are added/removed
+        static::updated(function ($post) {
+            if ($post->isDirty('likes_count')) {
+                cache()->forget("post.{$post->id}.likes_count");
+            }
+        });
+    }
 }

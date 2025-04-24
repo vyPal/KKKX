@@ -78,7 +78,7 @@ class ContentModerationService
             // Update post score and visibility
             $post->update([
                 'racism_score' => $newScore,
-                'is_hidden' => $newScore > config('moderation.critical_threshold')
+                'is_hidden' => $newScore < config('moderation.critical_threshold')
             ]);
         }
     }

@@ -39,6 +39,8 @@ export interface User {
     email_verified_at?: string;
     created_at: string;
     updated_at: string;
+    total_racism_score?: number;
+    flagged_posts_count?: number;
 }
 
 export interface Post {
@@ -48,6 +50,8 @@ export interface Post {
     racism_score: number;
     is_approved: boolean;
     is_hidden: boolean;
+    likes_count: number;
+    is_liked_by_user?: boolean; // Optional because it might not always be included
     edited_by_admin: boolean;
     admin_editor_id: number | null;
     admin_edited_at: string | null;
@@ -56,7 +60,6 @@ export interface Post {
     updated_at: string;
     user: User;
     adminEditor?: User;
-    reports: Report[];
 }
 
 export interface Report {

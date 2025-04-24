@@ -97,6 +97,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({ auth, header,
                             )}
 
                             <div className="hidden space-x-8 sm:ml-10 sm:flex">
+                                <NavLink href={route('leaderboard')} active={route().current('leaderboard')}>
+                                    Leaderboard
+                                </NavLink>
                                 <NavLink href={route('posts.index')} active={route().current('posts.index')}>
                                     Timeline
                                 </NavLink>
@@ -121,6 +124,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({ auth, header,
                                         </button>
                                     }
                                 >
+                                    <DropdownLink href={route('profile.show', auth.user.username)}>My Profile</DropdownLink>
                                     <DropdownLink href={route('profile.edit')}>Profile</DropdownLink>
                                     <DropdownLink href={route('logout')} method="post" as="button">
                                         Log Out

@@ -10,8 +10,19 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-        Route::post('posts', [PostController::class, 'store'])->name('posts.store');
-        Route::post('posts/{post}/report', [PostController::class, 'report'])->name('posts.report');
+    Route::post('posts', [PostController::class, 'store'])->name('posts.store');
+    Route::post('posts/{post}/report', [PostController::class, 'report'])->name('posts.report');
+
+    Route::get('/leaderboard', [App\Http\Controllers\LeaderboardController::class, 'index'])
+        ->name('leaderboard');
+
+    Route::post('/posts/{post}/toggle-like', [App\Http\Controllers\LikeController::class, 'toggleLike'])
+        ->name('posts.toggle-like');
+    Route::get('/posts/{post}/like-status', [App\Http\Controllers\LikeController::class, 'getLikeStatus'])
+        ->name('posts.like-status');
+
+    Route::get('/profile/{user:username}', [App\Http\Controllers\ProfileController::class, 'show'])
+        ->name('profile.show');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
