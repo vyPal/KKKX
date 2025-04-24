@@ -51,6 +51,7 @@ export interface Post {
     is_approved: boolean;
     is_hidden: boolean;
     likes_count: number;
+    views_count: number;
     is_liked_by_user?: boolean; // Optional because it might not always be included
     edited_by_admin: boolean;
     admin_editor_id: number | null;

@@ -2,6 +2,7 @@ import LikeButton from '@/components/LikeButton';
 import { Post } from '@/types';
 import { Link } from '@inertiajs/react';
 import React from 'react';
+import ViewCounter from './ViewCounter';
 
 interface PostCardProps {
     post: Post;
@@ -59,7 +60,9 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReport, isAdmin = false }) 
             {!post.is_approved && <div className="mt-2 text-xs font-medium text-yellow-500 dark:text-yellow-400">This post is pending approval</div>}
 
             <div className="mt-4 flex items-center space-x-4">
-                <LikeButton postId={post.id} initialLikeCount={post.likes_count} initialLiked={post.is_liked_by_user ?? false} />
+                <LikeButton postId={post.id} initialLikeCount={post.likes_count} initialLiked={post.is_liked_by_user} />
+
+                <ViewCounter postId={post.id} initialCount={post.views_count} />
 
                 <button
                     onClick={() => onReport(post.id)}

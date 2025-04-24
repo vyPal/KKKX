@@ -27,4 +27,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'notification' => $notification
         ]);
     });
+
+    Route::post('/api/posts/{post}/view', function (App\Models\Post $post) {
+        // Check if post is approved and not hidden
+        if ($post->is_approved && !$post->is_hidden) {
+            $post->incrementViewCount();
+        }
+
+        return response()->json([
+            'views_count' => $post->views_count
+        ]);
+    });
 });

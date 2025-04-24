@@ -8,7 +8,7 @@ class Post extends Model
 {
     protected $fillable = [
         'user_id', 'content', 'racism_score', 'is_approved', 'is_hidden',
-        'edited_by_admin', 'admin_editor_id', 'admin_edited_at', 'original_content'
+        'edited_by_admin', 'admin_editor_id', 'admin_edited_at', 'original_content', 'likes_count', 'views_count'
     ];
 
     protected $casts = [
@@ -17,6 +17,11 @@ class Post extends Model
         'edited_by_admin' => 'boolean',
         'admin_edited_at' => 'datetime',
     ];
+
+    public function incrementViewCount()
+    {
+        $this->increment('views_count');
+    }
 
     public function user()
     {

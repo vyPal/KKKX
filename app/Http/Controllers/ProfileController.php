@@ -62,6 +62,8 @@ class ProfileController extends Controller
             });
         }
 
+        $totalViews = $user->posts->sum('views_count');
+
         return Inertia::render('Profile/Show', [
             'profileUser' => [
                 'id' => $user->id,
@@ -72,6 +74,7 @@ class ProfileController extends Controller
                 'cumulativeRacismScore' => round($cumulativeRacismScore, 2),
                 'flaggedPostsCount' => $flaggedPostsCount,
                 'totalLikesReceived' => $totalLikesReceived,
+                'totalViews' => $totalViews,
             ],
             'userPosts' => $userPosts,
             'likedPosts' => $likedPosts,

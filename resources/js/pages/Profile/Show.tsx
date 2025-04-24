@@ -121,12 +121,17 @@ const ProfileShow: React.FC<ProfileShowProps> = ({ auth, profileUser, userPosts,
                                     </div>
 
                                     {/* Stats */}
-                                    <div className="mt-6 grid grid-cols-3 gap-4 border-t border-gray-200 pt-4 dark:border-gray-700">
+                                    <div className="mt-6 grid grid-cols-4 gap-4 border-t border-gray-200 pt-4 dark:border-gray-700">
                                         <div className="text-center">
                                             <div className="text-xl font-semibold text-gray-900 dark:text-white">
                                                 {profileUser.totalLikesReceived}
                                             </div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">Likes Received</div>
+                                        </div>
+
+                                        <div className="text-center">
+                                            <div className="text-xl font-semibold text-gray-900 dark:text-white">{profileUser.totalViews}</div>
+                                            <div className="text-sm text-gray-500 dark:text-gray-400">Total Views</div>
                                         </div>
 
                                         <div className="text-center">
