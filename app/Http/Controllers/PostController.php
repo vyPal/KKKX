@@ -56,9 +56,9 @@ class PostController extends Controller
         $post->update([
             'racism_score' => $racismScore,
             // Auto-approve if score is below threshold
-            'is_approved' => $racismScore < config('moderation.racism_threshold'),
+            'is_approved' => $racismScore > config('moderation.racism_threshold'),
             // Auto-hide if score is above critical threshold
-            'is_hidden' => $racismScore > config('moderation.critical_threshold')
+            'is_hidden' => $racismScore < config('moderation.critical_threshold')
         ]);
 
         return redirect()->back()->with('success', 'Post submitted for review');
