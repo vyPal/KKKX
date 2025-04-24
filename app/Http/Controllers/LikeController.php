@@ -45,6 +45,11 @@ class LikeController extends Controller
         // Increment the likes_count on the post
         $post->increment('likes_count');
 
+        // Send notification if the post author is not the same as the liker
+        if ($post->user_id !== $user->id) {
+            $post->user->notify(new \App\Notifications\PostLiked($post, $user));
+        }
+
         return response()->json([
             'liked' => true,
             'count' => $post->likes_count,

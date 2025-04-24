@@ -73,7 +73,28 @@ class PostController extends Controller
             'is_hidden' => $racismScore < config('moderation.critical_threshold')
         ]);
 
+        // Check for user mentions (@username) and notify them
+        $this->notifyMentionedUsers($post);
+
         return redirect()->back()->with('success', 'Post submitted for review');
+    }
+
+    protected function notifyMentionedUsers(Post $post)
+    {
+        // Extract usernames from the content
+        preg_match_all('/@([a-zA-Z0-9_]+)/', $post->content, $matches);
+
+        if (!empty($matches[1])) {
+            $usernames = array_unique($matches[1]);
+
+            foreach ($usernames as $username) {
+                $user = \App\Models\User::where('username', $username)->first();
+
+                if ($user && $user->id !== auth()->id()) {
+                    $user->notify(new \App\Notifications\PostMention($post, auth()->user()));
+                }
+            }
+        }
     }
 
     public function report(Post $post, Request $request)

@@ -23,6 +23,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/profile/{user:username}', [App\Http\Controllers\ProfileController::class, 'show'])
         ->name('profile.show');
+
+    Route::post('/push-subscriptions', 'App\Http\Controllers\PushSubscriptionController@store')
+        ->name('push-subscriptions.store');
+    Route::post('/push-subscriptions/update', 'App\Http\Controllers\PushSubscriptionController@update')
+        ->name('push-subscriptions.update');
+    Route::delete('/push-subscriptions', 'App\Http\Controllers\PushSubscriptionController@destroy')
+        ->name('push-subscriptions.destroy');
+
+    // Notifications routes
+    Route::get('/notifications', 'App\Http\Controllers\NotificationController@index')
+        ->name('notifications.index');
+    Route::post('/notifications/{id}/read', 'App\Http\Controllers\NotificationController@markAsRead')
+        ->name('notifications.read');
+    Route::post('/notifications/read-all', 'App\Http\Controllers\NotificationController@markAllAsRead')
+        ->name('notifications.read-all');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -44,3 +59,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+require __DIR__.'/api.php';

@@ -1,3 +1,5 @@
+import NotificationBadge from '@/components/NotificationBadge';
+import NotificationListener from '@/components/NotificationListener';
 import { User } from '@/types';
 import { InertiaLinkProps, Link } from '@inertiajs/react';
 import React, { useState } from 'react';
@@ -86,6 +88,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({ auth, header,
 
     return (
         <div className="min-h-screen bg-gray-100">
+            <NotificationListener userId={auth.user.id} />
+
             <nav className="border-b border-gray-100 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -107,6 +111,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({ auth, header,
                         </div>
 
                         <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                            <NotificationBadge />
                             <div className="relative ml-3">
                                 <Dropdown
                                     trigger={

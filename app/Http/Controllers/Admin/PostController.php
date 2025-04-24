@@ -35,43 +35,9 @@ class PostController extends Controller
         ]);
     }
 
-    public function approve(Post $post)
-    {
-        $post->update([
-            'is_approved' => true,
-        ]);
-
-        return back()->with('success', 'Post approved.');
-    }
-
-    public function hide(Post $post)
-    {
-        $post->update([
-            'is_hidden' => true,
-        ]);
-
-        return back()->with('success', 'Post hidden.');
-    }
-
-    public function unhide(Post $post)
-    {
-        $post->update([
-            'is_hidden' => false,
-        ]);
-
-        return back()->with('success', 'Post is now visible.');
-    }
-
-    public function edit(Post $post)
-    {
-        return Inertia::render('Admin/EditPost', [
-            'post' => $post->load('user'),
-        ]);
-    }
-
     public function update(Request $request, Post $post)
     {
-        $request->validate([
+        $validated = $request->validate([
             'content' => 'required|string|max:280',
         ]);
 
@@ -81,13 +47,62 @@ class PostController extends Controller
         }
 
         $post->update([
-            'content' => $request->content,
+            'content' => $validated['content'],
             'edited_by_admin' => true,
             'admin_editor_id' => auth()->id(),
             'admin_edited_at' => now(),
         ]);
 
+        // Send notification to the post author
+        $post->user->notify(new \App\Notifications\PostEdited($post, auth()->user()));
+
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');
+    }
+
+    // In the approve method
+    public function approve(Post $post)
+    {
+        $post->update([
+            'is_approved' => true,
+        ]);
+
+        // Send notification to the post author
+        $post->user->notify(new \App\Notifications\PostModerated($post, 'approved'));
+
+        return back()->with('success', 'Post approved.');
+    }
+
+    // In the hide method
+    public function hide(Post $post)
+    {
+        $post->update([
+            'is_hidden' => true,
+        ]);
+
+        // Send notification to the post author
+        $post->user->notify(new \App\Notifications\PostModerated($post, 'hidden'));
+
+        return back()->with('success', 'Post hidden.');
+    }
+
+    // In the unhide method
+    public function unhide(Post $post)
+    {
+        $post->update([
+            'is_hidden' => false,
+        ]);
+
+        // Send notification to the post author
+        $post->user->notify(new \App\Notifications\PostModerated($post, 'unhidden'));
+
+        return back()->with('success', 'Post is now visible.');
+    }
+
+    public function edit(Post $post)
+    {
+        return Inertia::render('Admin/EditPost', [
+            'post' => $post->load('user'),
+        ]);
     }
 
     public function delete(Post $post)
