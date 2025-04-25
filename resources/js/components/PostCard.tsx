@@ -16,7 +16,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReport, isAdmin = false }) 
         <div
             className={`rounded-lg p-6 shadow dark:shadow-gray-700/20 ${post.is_hidden ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-800'} ${!post.is_approved ? 'border-l-4 border-yellow-400 dark:border-yellow-600' : ''} `}
         >
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
                 <Link href={route('profile.show', post.user.username)} className="flex items-center">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
                         {post.user.username.charAt(0)}
