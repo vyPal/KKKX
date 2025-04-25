@@ -23,9 +23,7 @@ const NavLink: React.FC<NavLinkProps> = ({ active = false, children, ...props })
     );
 };
 
-interface ResponsiveNavLinkProps extends NavLinkProps {}
-
-const ResponsiveNavLink: React.FC<ResponsiveNavLinkProps> = ({ active = false, children, ...props }) => {
+const ResponsiveNavLink: React.FC<NavLinkProps> = ({ active = false, children, ...props }) => {
     return (
         <Link
             {...props}
@@ -61,9 +59,7 @@ const Dropdown: React.FC<DropdownProps> = ({ children, trigger }) => {
     );
 };
 
-interface DropdownLinkProps extends InertiaLinkProps {}
-
-const DropdownLink: React.FC<DropdownLinkProps> = ({ href, children, ...props }) => {
+const DropdownLink: React.FC<InertiaLinkProps> = ({ href, children, ...props }) => {
     return (
         <Link
             href={href}

@@ -9,12 +9,18 @@ interface LeaderboardProps {
     };
     users: {
         data: (User & { total_racism_score: number; flagged_posts_count: number })[];
-        links: any[];
+        links: Link[];
         current_page: number;
         last_page: number;
     };
     sortBy: 'score' | 'count';
     direction: 'asc' | 'desc';
+}
+
+interface Link {
+    url: string;
+    label: string;
+    active: boolean;
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ auth, users, sortBy, direction }) => {

@@ -18,21 +18,28 @@ interface ProfileShowProps {
         cumulativeRacismScore: number;
         flaggedPostsCount: number;
         totalLikesReceived: number;
+        totalViews: number;
     };
     userPosts: {
         data: Post[];
-        links: any[];
+        links: Link[];
         current_page: number;
         last_page: number;
     };
     likedPosts: {
         data: Post[];
-        links: any[];
+        links: Link[];
         current_page: number;
         last_page: number;
     };
     isAdmin: boolean;
     isOwnProfile: boolean;
+}
+
+interface Link {
+    url: string;
+    label: string;
+    active: boolean;
 }
 
 const ProfileShow: React.FC<ProfileShowProps> = ({ auth, profileUser, userPosts, likedPosts, isAdmin, isOwnProfile }) => {

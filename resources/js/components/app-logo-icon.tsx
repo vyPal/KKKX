@@ -1,8 +1,6 @@
 import React from 'react';
 
-interface AppLogoIconProps extends React.SVGProps<SVGSVGElement> {}
-
-function AppLogoIcon(props: AppLogoIconProps) {
+function AppLogoIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg {...props} viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
             {/* K */}

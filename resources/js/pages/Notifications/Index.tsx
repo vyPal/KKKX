@@ -6,9 +6,19 @@ import { Head, Link, router } from '@inertiajs/react';
 interface Notification {
     id: string;
     type: string;
-    data: any;
+    data: NotificationData;
     read_at: string | null;
     created_at: string;
+}
+
+interface NotificationData {
+    type: string;
+    action: string;
+    editor_username: string;
+    liked_by_username: string;
+    mentioned_by_username: string;
+    post_preview: string;
+    url: string;
 }
 
 interface NotificationsIndexProps {
@@ -17,12 +27,18 @@ interface NotificationsIndexProps {
     };
     notifications: {
         data: Notification[];
-        links: any[];
+        links: Link[];
         current_page: number;
         last_page: number;
     };
     unreadCount: number;
     vapidPublicKey: string;
+}
+
+interface Link {
+    url: string;
+    label: string;
+    active: boolean;
 }
 
 export default function NotificationsIndex({ auth, notifications, unreadCount, vapidPublicKey }: NotificationsIndexProps) {

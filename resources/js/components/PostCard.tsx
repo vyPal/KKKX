@@ -2,6 +2,7 @@ import LikeButton from '@/components/LikeButton';
 import { Post } from '@/types';
 import { Link } from '@inertiajs/react';
 import React from 'react';
+import AdminControls from './AdminControls';
 import ViewCounter from './ViewCounter';
 
 interface PostCardProps {
@@ -25,6 +26,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReport, isAdmin = false }) 
                         <div className="text-sm text-gray-500 dark:text-gray-400">{new Date(post.created_at).toLocaleString()}</div>
                     </div>
                 </Link>
+
+                {isAdmin && <AdminControls post={post} />}
             </div>
 
             <div className="mt-4 dark:text-white">
@@ -48,7 +51,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReport, isAdmin = false }) 
                               : 'text-green-600 dark:text-green-500'
                     }
                 >
-                    {post.racism_score}
+                    {Math.floor(post.racism_score * 100)}%
                 </span>
             </div>
 
@@ -58,7 +61,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReport, isAdmin = false }) 
             {!post.is_approved && <div className="mt-2 text-xs font-medium text-yellow-500 dark:text-yellow-400">This post is pending approval</div>}
 
             <div className="mt-4 flex items-center space-x-4">
-                <LikeButton postId={post.id} initialLikeCount={post.likes_count} initialLiked={post.is_liked_by_user} />
+                <LikeButton postId={post.id} initialLikeCount={post.likes_count} initialLiked={post.is_liked_by_user ?? false} />
 
                 <ViewCounter postId={post.id} initialCount={post.views_count} />
 

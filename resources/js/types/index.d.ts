@@ -52,6 +52,7 @@ export interface Post {
     is_hidden: boolean;
     likes_count: number;
     views_count: number;
+    reports: Report[];
     is_liked_by_user?: boolean; // Optional because it might not always be included
     edited_by_admin: boolean;
     admin_editor_id: number | null;
