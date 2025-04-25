@@ -37,22 +37,20 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReport, isAdmin = false }) 
                 )}
             </div>
 
-            {isAdmin && (
-                <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    Score:{' '}
-                    <span
-                        className={
-                            post.racism_score > 0.7
-                                ? 'text-red-600 dark:text-red-400'
-                                : post.racism_score > 0.3
-                                  ? 'text-yellow-600 dark:text-yellow-500'
-                                  : 'text-green-600 dark:text-green-500'
-                        }
-                    >
-                        {post.racism_score}
-                    </span>
-                </div>
-            )}
+            <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Score:{' '}
+                <span
+                    className={
+                        post.racism_score < 0.3
+                            ? 'text-red-600 dark:text-red-400'
+                            : post.racism_score < 0.7
+                              ? 'text-yellow-600 dark:text-yellow-500'
+                              : 'text-green-600 dark:text-green-500'
+                    }
+                >
+                    {post.racism_score}
+                </span>
+            </div>
 
             {/* Status indicators */}
             {post.is_hidden && <div className="mt-2 text-xs font-medium text-red-500 dark:text-red-400">This post is hidden</div>}
